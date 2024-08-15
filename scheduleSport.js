@@ -1,36 +1,5 @@
 //const fs = require('fs');
 
-var body = null;
-
-if (typeof document !== 'undefined') {
-    // will run in client's browser only
-    body = document.getElementsByTagName("body")[0];
-}
-
-let lessons = {
-    first: {
-        id : 1,
-        nameLesson : 'Легкая тренировка',
-        timeLesson : '09.00-10.00',
-        maxUnits : 10,
-        currentUnits : 0
-    },
-    second: {
-        id : 2,
-        nameLesson : 'Легкая тренировка',
-        timeLesson : '09.00-10.00',
-        maxUnits : 10,
-        currentUnits : 0
-    }
-}
-
-let lessonsJson = JSON.stringify(lessons) 
-console.log(lessonsJson);
-
-
-
-
-
 // запись в  JSON  файл данных об объектах
 // fs.writeFile('lessonData.json', lessonsJson, (err) => {
 //     if (err) throw err;
@@ -38,59 +7,78 @@ console.log(lessonsJson);
 // });
 
 
-// получение данных об объектах из JSON файла
-// const jsonData = require('./lessonData.json');
+//получение данных об объектах из JSON файла
+
+
+
+// import * as req from 'require';
+// const jsonData = req('./lessonData.json');
 // console.log(jsonData);
 
-const jsonData = {
-    first: {
-      id: 1,
-      nameLesson: 'Легкая тренировка',
-      timeLesson: '09.00-10.00',
-      maxUnits: 10,
-      currentUnits: 0
-    },
-    second: {
-      id: 2,
-      nameLesson: 'Легкая тренировка',
-      timeLesson: '09.00-10.00',
-      maxUnits: 10,
-      currentUnits: 0
+
+
+const getObject = function () {
+    
+    fetch('./lessonData.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Ой, ошибка в fetch: ' + response.statusText);
     }
-  }
-
-const getlessonInfo = function(){
-    Object.values(jsonData).forEach(element => {
-        
-        console.log(element);
-    });
-}
-
-
-
-
-let containerContentAll;
+    return response.json();
+  })
+  .then(jsonData => {console.log(jsonData);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////                    
+let containerContentAll = [];
 let containerContentLesson;
+
+
 
 Object.values(jsonData).forEach(element => {
     containerContentLesson = `
-    <div class = 'container_item>
+    <div class = 'container_item'>
         <h2>${element.nameLesson}</h2>
         <p>Время проведения: ${element.timeLesson}</p>
         <p>Максимальное количество участников: ${element.maxUnits}</p>
         <p>Уже записано на занятие: ${element.currentUnits}</p>
-        <btn id = add_${element.id}> Записаться </btn>
-        <btn id = cansel_${element.id}> Отменить запись </btn>
+        <button id = add_${element.id}> Записаться </button>
+        <button id = cansel_${element.id}> Отменить запись </button>
     </div>
     `
-    containerContentAll += (containerContentLesson);
+    containerContentAll.push(containerContentLesson)
 });
 
 console.log(containerContentAll);
 
+let count = 0;
+let div = null;
 
-let content = document.getElementsByClassName('container')
-content.innerHTML = containerContentAll
-console.log(content);
+const mainHead = document.getElementsByTagName('h1')
+console.log(mainHead[0].textContent);
+containerContentAll.forEach(element => {
+    console.log(element);
+    mainHead[0].insertAdjacentHTML('afterend', element)
+});
+ 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  })
+  
+  .catch(error => console.error('Ошибка при исполнении запроса: ', error));
+  
+
+}
+
+getObject()
+
+
+    
+    
+
+
+
+
+
+
 
 

@@ -28,6 +28,8 @@ const getObject = function () {
   })
   .then(jsonData => {console.log(jsonData);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////                    
+
+
 let containerContentAll = [];
 let containerContentLesson;
 
@@ -67,6 +69,10 @@ const getDetailsObj = function() {
         jsonData[`${classNameParse[1]}`]['currentUnits'] -= 1;
         console.log(`количество обучаемых на занятие № ${classNameParse[1]} уменьшилось и стало равным ${jsonData[`${classNameParse[1]}`]['currentUnits']}`);
     }
+
+    // let jsonDataJSON = JSON.stringify(jsonData);
+    // const fs = require('fs');
+    // fs.writeFileSync('./lessonData.json', jsonDataJSON)
 
 }
 

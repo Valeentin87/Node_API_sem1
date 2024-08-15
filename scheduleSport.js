@@ -33,6 +33,7 @@ let containerContentLesson;
 
 
 
+
 Object.values(jsonData).forEach(element => {
     containerContentLesson = `
     <div class = 'container_item'>
@@ -40,8 +41,8 @@ Object.values(jsonData).forEach(element => {
         <p>Время проведения: ${element.timeLesson}</p>
         <p>Максимальное количество участников: ${element.maxUnits}</p>
         <p>Уже записано на занятие: ${element.currentUnits}</p>
-        <button id = add_${element.id}> Записаться </button>
-        <button id = cansel_${element.id}> Отменить запись </button>
+        <button class = "add_${element.id}"> Записаться </button>
+        <button class = "cansel_${element.id}"> Отменить запись </button>
     </div>
     `
     containerContentAll.push(containerContentLesson)
@@ -49,15 +50,24 @@ Object.values(jsonData).forEach(element => {
 
 console.log(containerContentAll);
 
-let count = 0;
-let div = null;
-
 const mainHead = document.getElementsByTagName('h1')
-console.log(mainHead[0].textContent);
 containerContentAll.forEach(element => {
     console.log(element);
     mainHead[0].insertAdjacentHTML('afterend', element)
 });
+
+const getDetailsObj = function() {
+    alert(this.className)
+
+}
+
+const allButtons = document.getElementsByTagName('button')
+
+Object.values(allButtons).forEach(element => {
+    console.log(element.textContent);
+    element.onclick = getDetailsObj;
+});
+
  
 
 
@@ -70,6 +80,7 @@ containerContentAll.forEach(element => {
 }
 
 getObject()
+
 
 
     

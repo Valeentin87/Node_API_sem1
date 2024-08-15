@@ -57,7 +57,16 @@ containerContentAll.forEach(element => {
 });
 
 const getDetailsObj = function() {
-    alert(this.className)
+    alert(this.className);
+    let classNameParse = this.className.split('_');
+    if (classNameParse[0] === 'add') {
+        jsonData[`${classNameParse[1]}`]['currentUnits'] += 1;
+        console.log(`количество обучаемых на занятие № ${classNameParse[1]} увеличилось и стало равным ${jsonData[`${classNameParse[1]}`]['currentUnits']}`);
+    }
+    else if (classNameParse[0] === 'cansel') {
+        jsonData[`${classNameParse[1]}`]['currentUnits'] -= 1;
+        console.log(`количество обучаемых на занятие № ${classNameParse[1]} уменьшилось и стало равным ${jsonData[`${classNameParse[1]}`]['currentUnits']}`);
+    }
 
 }
 

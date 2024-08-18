@@ -1,0 +1,37 @@
+body {
+    font-size: 36px;
+    background-color: #bfeb7a;
+    display: flex;
+    flex-direction: column;
+    gap: 30;
+}
+
+
+.container_item {
+    flex-direction: row;
+    align-content: center;
+    gap: 40;
+    border: 2px solid red;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 30px;
+    width: 700px;
+}
+
+p {
+    color: brown;
+    
+}
+
+button {
+    font-size: 30px;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 30px;
+    background-color: #50dd2d;
+}
+
+.main_head {
+    background-color: #26b2e9;
+    width: 700px;
+}

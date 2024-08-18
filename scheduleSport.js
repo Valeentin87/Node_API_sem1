@@ -1,40 +1,11 @@
-//const fs = require('fs');
-
-// запись в  JSON  файл данных об объектах
-// fs.writeFile('lessonData.json', lessonsJson, (err) => {
-//     if (err) throw err;
-//     console.log('File has been saved!');
-// });
-
-
-//получение данных об объектах из JSON файла
-
-
-
-// import * as req from 'require';
-// const jsonData = req('./lessonData.json');
-// console.log(jsonData);
-
-
-
-const getObject = function () {
-    
-    fetch('./lessonData.json')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Ой, ошибка в fetch: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(jsonData => {console.log(jsonData);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////                    
-
-
+let h1 = document.getElementsByClassName("main_head")
+console.log(h1[0].textContent)
+console.log("hi");
+let jsonData ={"1":{"id":1,"nameLesson":"Легкая тренировка","timeLesson":"09.00-10.00","maxUnits":10,"currentUnits":0},"2":{"id":2,"nameLesson":"Тяжелая тренировка","timeLesson":"10.00-10.50","maxUnits":10,"currentUnits":0}};
+console.log(jsonData);
 let containerContentAll = [];
 let containerContentLesson;
-
-
-
+let divCount = 1;
 
 Object.values(jsonData).forEach(element => {
     containerContentLesson = `
@@ -42,12 +13,13 @@ Object.values(jsonData).forEach(element => {
         <h2>${element.nameLesson}</h2>
         <p>Время проведения: ${element.timeLesson}</p>
         <p>Максимальное количество участников: ${element.maxUnits}</p>
-        <p>Уже записано на занятие: ${element.currentUnits}</p>
+        <p class="change_number-${divCount}">Уже записано на занятие: ${element.currentUnits}</p>
         <button class = "add_${element.id}"> Записаться </button>
         <button class = "cansel_${element.id}"> Отменить запись </button>
     </div>
     `
-    containerContentAll.push(containerContentLesson)
+    containerContentAll.push(containerContentLesson);
+    divCount +=1;
 });
 
 console.log(containerContentAll);
@@ -59,16 +31,46 @@ containerContentAll.forEach(element => {
 });
 
 const getDetailsObj = function() {
-    alert(this.className);
+    //alert(this.className);
+    let disable_btn;
     let classNameParse = this.className.split('_');
-    if (classNameParse[0] === 'add') {
+    let changePar = document.querySelector(`.change_number-${classNameParse[1]}`);
+    if (classNameParse[0] === 'add' &&          jsonData[`${classNameParse[1]}`]['currentUnits'] === 0) {
         jsonData[`${classNameParse[1]}`]['currentUnits'] += 1;
+        disable_btn = document.querySelector(`.cansel_${classNameParse[1]}`)
+            console.log(disable_btn.getHTML());
+            disable_btn.disabled = false;
+            changePar.textContent = `уже записано на занятие: ${jsonData[`${classNameParse[1]}`]['currentUnits']}`;
+    }
+    else if (classNameParse[0] === 'add'){
+        jsonData[`${classNameParse[1]}`]['currentUnits'] += 1;
+     if (jsonData[`${classNameParse[1]}`]['currentUnits'] === 10){
+            this.disabled = "disabled";
+        }
         console.log(`количество обучаемых на занятие № ${classNameParse[1]} увеличилось и стало равным ${jsonData[`${classNameParse[1]}`]['currentUnits']}`);
+ 
+        console.log(changePar);
+        changePar.textContent = `уже записано на занятие: ${jsonData[`${classNameParse[1]}`]['currentUnits']}`;
     }
-    else if (classNameParse[0] === 'cansel') {
+
+    else if (classNameParse[0] === 'cansel' && jsonData[`${classNameParse[1]}`]['currentUnits'] === 0) {
+        this.disabled = "disabled";
+        }
+    else if (classNameParse[0] === 'cansel' && jsonData[`${classNameParse[1]}`]['currentUnits'] > 0)
+        {
         jsonData[`${classNameParse[1]}`]['currentUnits'] -= 1;
+        if (jsonData[`${classNameParse[1]}`]['currentUnits'] === 9){
+            console.log("выполнено условия для активации кнопки снова ")
+            disable_btn = document.querySelector(`.add_${classNameParse[1]}`)
+            console.log(disable_btn.getHTML());
+            disable_btn.disabled = false;
+        }
         console.log(`количество обучаемых на занятие № ${classNameParse[1]} уменьшилось и стало равным ${jsonData[`${classNameParse[1]}`]['currentUnits']}`);
+            let changePar = document.querySelector(`.change_number-${classNameParse[1]}`);
+            console.log(changePar);
+        changePar.textContent = `уже записано на занятие: ${jsonData[`${classNameParse[1]}`]['currentUnits']}`;
     }
+    console.log(jsonData);
 
     // let jsonDataJSON = JSON.stringify(jsonData);
     // const fs = require('fs');
@@ -79,32 +81,7 @@ const getDetailsObj = function() {
 const allButtons = document.getElementsByTagName('button')
 
 Object.values(allButtons).forEach(element => {
-    console.log(element.textContent);
-    element.onclick = getDetailsObj;
+    element.addEventListener('click', getDetailsObj);
+    //console.log(element.textContent);
+    //element.onclick = getDetailsObj;
 });
-
- 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  })
-  
-  .catch(error => console.error('Ошибка при исполнении запроса: ', error));
-  
-
-}
-
-getObject()
-
-
-
-    
-    
-
-
-
-
-
-
-
-
